@@ -25,35 +25,33 @@ class _TodoListScreenState extends State<TodoListScreen> {
 
   Widget _buildNote(Note note) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 25.0),
-      child: Column(
-        children: [
-          ListTile(
-            title: Text(
-              note.title,
-              style: TextStyle(
-                  fontSize: 18.0,
-                  decoration: note.status == 0
-                      ? TextDecoration.none
-                      : TextDecoration.lineThrough),
-            ),
-            subtitle: Text(note.content),
-            //trailing: Checkbox(
-            //onChanged: (value) {
-            //note.status = value == 1 ? true : false;
-            //DatabaseHelper.instance.updateNote(note);
-            //_updateNoteList();
-            //},
-            //value: true),
-            onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => AddNewNote(
-                        updateNoteList: _updateNoteList, note: note))),
-          )
-        ],
-      ),
-    );
+        padding: EdgeInsets.symmetric(horizontal: 25.0),
+        child: Container(
+            decoration:
+                BoxDecoration(border: Border(bottom: BorderSide(color: Theme.of(context).dividerColor))),
+            child: ListTile(
+              title: Text(
+                note.title,
+                style: TextStyle(
+                    fontSize: 18.0,
+                    decoration: note.status == 0
+                        ? TextDecoration.none
+                        : TextDecoration.lineThrough),
+              ),
+              subtitle: Text(note.content),
+              //trailing: Checkbox(
+              //onChanged: (value) {
+              //note.status = value == 1 ? true : false;
+              //DatabaseHelper.instance.updateNote(note);
+              //_updateNoteList();
+              //},
+              //value: true),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => AddNewNote(
+                          updateNoteList: _updateNoteList, note: note))),
+            )));
   }
 
   @override
@@ -78,21 +76,22 @@ class _TodoListScreenState extends State<TodoListScreen> {
                 itemCount: 1 + snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   if (index == 0) {
-                    return Padding(
+                    return Container(
+                      color: Colors.blueGrey[900],
                       padding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 20.0),
+                          horizontal: 25.0, vertical: 15.0),
                       child: Row(children: [
                         Text(
                           "My Notes",
                           style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.white,
                               fontSize: 25.0,
                               fontWeight: FontWeight.bold),
                         ),
                         Spacer(),
                         RaisedButton(
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14.0),
+                            borderRadius: BorderRadius.circular(30.0),
                           ),
                           onPressed: () {
                             Navigator.push(
@@ -106,7 +105,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
                           color: Colors.white,
                           textColor: Colors.black,
                           child:
-                              Text('New Note', style: TextStyle(fontSize: 20)),
+                              Text('New Note', style: TextStyle(fontSize: 14)),
                         ),
 
                         //SizedBox(height: 10.0),
@@ -114,7 +113,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
                       ]),
                     );
                   }
-                  return _buildNote(snapshot.data[index - 1]);
+                  return (_buildNote(snapshot.data[index - 1]));
                 },
               );
             }));
