@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:notes_app/screens/home.dart';
 
 import 'package:notes_app/screens/todo_list_screen.dart';
+
+import 'screens/todo_list_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Notes',
       theme: ThemeData(
         primarySwatch: Colors.grey,

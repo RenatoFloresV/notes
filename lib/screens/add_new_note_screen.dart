@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_app/helpers/database_helper.dart';
 import 'package:notes_app/models/notes_models.dart';
@@ -59,81 +60,74 @@ class _AddNewNote extends State<AddNewNote> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: GestureDetector(
+      body: Container(
+        child: AlertDialog(
+          contentPadding:
+              EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+          title: Text('New note',
+              style: TextStyle(color: Colors.black, fontSize: 30.0)),
+          content: GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
             child: SingleChildScrollView(
-                child: Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 40.0, vertical: 80.0),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Form(
+                      key: _formKey,
+                      child: Column(
                         children: [
-                          GestureDetector(
-                            onTap: () => Navigator.pop(context),
-                            child: Icon(Icons.arrow_back_ios),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10.0),
+                            child: TextFormField(
+                              style: TextStyle(fontSize: 18.0),
+                              decoration: InputDecoration(
+                                  labelText: "Title",
+                                  labelStyle: TextStyle(fontSize: 18.0),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  )),
+                              validator: (input) => input.trim().isEmpty
+                                  ? "Please enter a title"
+                                  : null,
+                              onSaved: (input) => _title = input,
+                              initialValue: _title,
+                            ),
                           ),
-                          SizedBox(height: 20.0),
-                          Text("New note",
-                              style: TextStyle(
-                                  color: Colors.black, fontSize: 40.0)),
-                          SizedBox(height: 10.0),
-                          Form(
-                            key: _formKey,
-                            child: Column(children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 20.0),
-                                child: TextFormField(
-                                  style: TextStyle(fontSize: 18.0),
-                                  decoration: InputDecoration(
-                                      labelText: "Title",
-                                      labelStyle: TextStyle(fontSize: 18.0),
-                                      border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      )),
-                                  validator: (input) => input.trim().isEmpty
-                                      ? "Please enter a note title"
-                                      : null,
-                                  onSaved: (input) => _title = input,
-                                  initialValue: _title,
-                                ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20.0),
+                            child: TextFormField(
+                              style: TextStyle(fontSize: 18.0),
+                              decoration: InputDecoration(
+                                  labelText: "Content",
+                                  labelStyle: TextStyle(fontSize: 18.0),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  )),
+                              validator: (input) => input.trim().isEmpty
+                                  ? "Please enter a content"
+                                  : null,
+                              onSaved: (input) => _content = input,
+                              initialValue: _content,
+                            ),
+                          ),
+                          Container(
+                              margin: EdgeInsets.symmetric(vertical: 20.0),
+                              height: 60.0,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor,
+                                borderRadius: BorderRadius.circular(30.0),
                               ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 20.0),
-                                child: TextFormField(
-                                  style: TextStyle(fontSize: 18.0),
-                                  decoration: InputDecoration(
-                                      labelText: "Content",
-                                      labelStyle: TextStyle(fontSize: 18.0),
-                                      border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      )),
-                                  validator: (input) => input.trim().isEmpty
-                                      ? "Please enter a content"
-                                      : null,
-                                  onSaved: (input) => _content = input,
-                                  initialValue: _content,
-                                ),
-                              ),
-                              Container(
+                              child: FlatButton(
+                                  child: Text(
+                                      widget.note == null ? 'Add' : 'Update',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20.0)),
+                                  onPressed: _save)),
+                          widget.note != null
+                              ? Container(
                                   margin: EdgeInsets.symmetric(vertical: 20.0),
-                                  height: 60.0,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor,
-                                    borderRadius: BorderRadius.circular(30.0),
-                                  ),
-                                  child: FlatButton(
-                                      child: Text(widget.note == null ? 'Add' : 'Update',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20.0)),
-                                      onPressed: _save)
-                                      ),
-                              widget.note != null
-                          ? Container(
-                            margin: EdgeInsets.symmetric(vertical: 20.0),
                                   height: 60.0,
                                   width: double.infinity,
                                   decoration: BoxDecoration(
@@ -145,19 +139,18 @@ class _AddNewNote extends State<AddNewNote> {
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 20.0)),
-                                      onPressed: _delete)
-                          )
-                          : SizedBox.shrink()
-                                  
-                            ],
-                            ),
-                            ),
-                          
+                                      onPressed: _delete))
+                              : SizedBox.shrink()
                         ],
-                        ),
-                        ),
-                        ),
-                        ),
-                        );
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

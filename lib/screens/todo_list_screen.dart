@@ -24,6 +24,8 @@ class _TodoListScreenState extends State<TodoListScreen> {
   }
 
   Widget _buildNote(Note note) {
+    //return container with new note
+
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         child: Container(
@@ -58,24 +60,28 @@ class _TodoListScreenState extends State<TodoListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-          children: [
-      Column(
-          children: [
-        Container(
-          color: Colors.red,
-          height: 500,
-          width: 200,
-          child: Text(
-            'ChangeMaker',
-            style: TextStyle(
-                fontSize: 25, fontWeight: FontWeight.w500, color: Colors.white),
-            textAlign: TextAlign.center,
+      
+        body: Stack(children: [
+      Container(
+        color: Colors.blueGrey[900],
+        child: Column(children: [
+          Padding(
+            padding: const EdgeInsets.all( 10.0),
+            child: Text('ChangeMaker',
+                style: TextStyle(fontSize: 50, color: Colors.white),
+                
+                textAlign: TextAlign.center),
           ),
-        ),
-      ]),
+          Container(
+            height: 400,
+            decoration: BoxDecoration(
+                image:
+                    DecorationImage(image: AssetImage('lib/assets/home.jpg'))),
+          ),
+        ]),
+      ),
       DraggableScrollableSheet(
-          maxChildSize: 1.0,
+          maxChildSize: 1,
           minChildSize: 0.5,
           builder: (BuildContext context, ScrollController scrollController) {
             return FutureBuilder(
@@ -92,55 +98,73 @@ class _TodoListScreenState extends State<TodoListScreen> {
                   //.toList()
                   //.length;
 
-                  return ListView.builder(
-                    controller: scrollController,
-                    padding: EdgeInsets.symmetric(vertical: 30.0),
-                    itemCount: 1 + snapshot.data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      if (index == 0) {
-                        return Container(
-                          color: Colors.blueGrey[900],
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 25.0, vertical: 15.0),
-                          child: Row(children: [
-                            Text(
-                              "My Notes",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 25.0,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Spacer(),
-                            RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => AddNewNote(
-                                            updateNoteList: _updateNoteList,
-                                          )),
-                                );
-                              },
-                              color: Colors.white,
-                              textColor: Colors.black,
-                              child: Text('New Note',
-                                  style: TextStyle(fontSize: 14)),
-                            ),
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(30.0),
+                          topLeft: Radius.circular(30.0)),
+                      color: Colors.white,
+                    ),
+                    child: ListView.builder(
+                      controller: scrollController,
+                      padding: EdgeInsets.only(top: 0.0),
+                      itemCount: 1 + snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        if (index == 0) {
+                          // return Appbar My notes and button New note
+                          return Column(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(30.0),
+                                      topLeft: Radius.circular(30.0)),
+                                  color: Colors.blueGrey[900],
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 25.0, vertical: 20.0),
+                                child: Row(children: [
+                                  Text(
+                                    "My Notes",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 25.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Spacer(),
+                                  RaisedButton(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30.0),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => AddNewNote(
+                                                  updateNoteList:
+                                                      _updateNoteList,
+                                                )),
+                                      );
+                                    },
+                                    color: Colors.white,
+                                    textColor: Colors.black,
+                                    child: Text('New Note',
+                                        style: TextStyle(fontSize: 14)),
+                                  ),
 
-                            //SizedBox(height: 10.0),
-                            //Text("$completedNoteCount of ${snapshot.data.length}"),
-                          ]),
-                        );
-                      }
-                      return Container(
-                          child: (_buildNote(snapshot.data[index - 1])));
-                    },
+                                  //SizedBox(height: 10.0),
+                                  //Text("$completedNoteCount of ${snapshot.data.length}"),
+                                ]),
+                              ),
+                            ],
+                          );
+                        }
+                        return (_buildNote(snapshot.data[index - 1]));
+                      },
+                    ),
                   );
                 });
-          }),
+          })
     ]));
   }
 }
