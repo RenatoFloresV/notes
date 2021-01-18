@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/screens/home.dart';
 
 import 'package:notes_app/screens/todo_list_screen.dart';
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home: TodoListScreen(),
+      home: Pagina(),
     );
   }
 }
